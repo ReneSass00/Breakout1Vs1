@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Auto</title>
+
+    <style>
+        canvas {
+            background-color: bisque;
+        }
+    </style>
+    <script>
+        let redBox;
+        let ctx;
+        const ballBlue = {};
+        const ballRed = {};
+        let redBoxes = [];
+        let blueBoxes = [];
+
+        let direction = 1;
+
+
+        function draw() {
+
+            
+
+
+            drawBoxes();
+            
+            ctx.drawImage(ballBlue.Image, ballBlue.x, ballBlue.y);
+            ctx.drawImage(ballRed.Image, ballRed.x, ballRed.y);
+            
+            ballRed.x += direction;
+            let hit = false;
+            for (let i = 0; i < blueBoxes.length; i++){
+                if (blueBoxes[i].x == ballRed.x +36){
+                    hit = true;
+                }
+            }
+
+            if (hit){
+                direction = direction*-1;
+            }
+
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = 'black';
+
+            requestAnimationFrame(draw);
+        }
+
+        function startGame() {
+            canvas = document.getElementById(`canvas`);
+            ctx = canvas.getContext(`2d`);
+
+            drawBoardAtBeginning();
+
+
+
+            draw();
+        }
+
+        function drawBoxes(){
+            ballBlue.Image = new Image();
+            ballBlue.Image.src = 'ball.png';
+            
+            ballRed.Image = new Image();
+            ballRed.Image.src = 'ball.png';
+
+
+            ctx.fillStyle = "red";
+            ctx.strokeStyle = 'black';
+            for (let i = 0; i < redBoxes.length; i++) {
+
+
+                ctx.fillRect(redBoxes[i].x, redBoxes[i].y, 20, 20);
+                ctx.strokeRect(redBoxes[i].x, redBoxes[i].y, 20, 20);
+
+            }
+            ctx.fillStyle = "blue";
+            ctx.strokeStyle = 'black';
+
+            for (let i = 0; i < blueBoxes.length; i++) 
+            {
+                ctx.fillRect(blueBoxes[i].x, blueBoxes[i].y, 20, 20);
+                ctx.strokeRect(blueBoxes[i].x, blueBoxes[i].y, 20, 20);
+            }
+        }
+
+
+        function drawBoardAtBeginning(){
+
+            ballBlue.y = Math.floor(Math.random() * (458 - 36 + 1)) + 36;
+            ballBlue.x = 648;
+
+            ballRed.y = Math.floor(Math.random() * (458 - 36 + 1)) + 36;
+            ballRed.x = 36;
+
+
+            for (let i = 0; i < 20; i++) {
+                for (let j = 0; j < 24; j++) {
+                    redBoxes.push({ x: i * 18, y: j * 18 });
+                    redBoxes[i]
+                }
+            }
+
+            for (let i = 0; i < 20; i++) {
+                for (let j = 0; j < 24; j++) {
+                    blueBoxes.push({ x: i * 18 + 360, y: j * 18 });
+                }
+            }
+        }
+
+
+    </script>
+</head>
+
+<body onload="startGame()">
+    <canvas width="720" height="480" id="canvas">
+
+    </canvas>
+</body>
+
+</html>
